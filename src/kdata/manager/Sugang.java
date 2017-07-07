@@ -2,6 +2,7 @@ package kdata.manager;
 
 public class Sugang {
 	//조인할꺼 생각해서 , doc생성
+	
 	private String snum;
 	private String sname;
 	private String subjectcode;

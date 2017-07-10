@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SugangManager {
 	//신청, 취소 , 리스트
@@ -22,7 +24,6 @@ public class SugangManager {
 		DBUtil.close(con, pstmt);
 		
 		return result;
-		
 	}
 	public static int cancel(String snum, String subjectCode) throws SQLException {
 		Connection con = DBUtil.getConnection();
@@ -94,5 +95,34 @@ public class SugangManager {
 		
 		return result;
 	
+	}
+	public static Map<String,Integer> avgGrade() throws SQLException {
+		//과목코드 스트링, 점수 인트.
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Map<String,Integer> map = null;
+		
+		try {
+			con = DBUtil.getConnection();
+			
+			String sql = "select s2.SUBJECTNAME,avg(s1.grade) avg from takeclass s1 "
+					+ "inner join subject s2 on s1.subjectcode=s2.SUBJECTCODE "
+					+ "group by s2.SUBJECTNAME";
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			if (rs==null) {
+				return map;
+			}
+			map = new HashMap<>();
+			
+			while(rs.next()) {
+				map.put(rs.getString("subjectname"),rs.getInt("avg"));
+			}
+		} finally {
+			DBUtil.close(con, pstmt,rs);
+		}
+		return map;	
 	}
 }

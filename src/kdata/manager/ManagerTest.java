@@ -2,7 +2,9 @@ package kdata.manager;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ManagerTest {
 	
@@ -10,8 +12,9 @@ public class ManagerTest {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		while(true) {
-			System.out.println("1:추가 ,2:출력,3:검색 ,4 : 수강신청 "
-					+ "5:수강신청변경, 6 :수강신청리스트 7:성적입력 9:종료 ....");
+			System.out.println("1:추가 ,2:출력,3:검색 ,4 : 수강신청, "
+					+ "5:수강신청변경, 6 :수강신청리스트, 7:성적입력, 8: 성적평균출력, "
+					+ "9:종료 ....");
 			switch(sc.nextInt()) {
 			case 1:
 				System.out.println("학번을 입력하세요");
@@ -38,6 +41,7 @@ public class ManagerTest {
 				}
 				System.out.println("");
 				break;
+				
 			case 2:
 				try {
 					List<Student> list = StudentManager.selectAll();
@@ -70,6 +74,7 @@ public class ManagerTest {
 				}
 				System.out.println("");
 				break;
+				
 			case 4:
 				sc.nextLine();
 				System.out.println("학번을 입력해주세요");
@@ -92,6 +97,7 @@ public class ManagerTest {
 					e.printStackTrace();
 				}
 				break;
+				
 			case 5://취소
 				sc.nextLine();
 				System.out.println("학번을 입력해주세요");
@@ -114,6 +120,7 @@ public class ManagerTest {
 					e.printStackTrace();
 				}
 				break;
+				
 			case 6://리스트출력
 				sc.nextLine();
 				System.out.println("학번을 입력해주세요");
@@ -134,6 +141,7 @@ public class ManagerTest {
 				}
 				System.out.println("");
 				break;
+				
 			case 7://성적입력
 				sc.nextLine();
 				System.out.println("성적 입력할 학생의 학번을 입력하세요");
@@ -157,12 +165,27 @@ public class ManagerTest {
 				}
 				System.out.println("");
 				break;
+				
+			case 8://성적 평균 프린트
+				System.out.println("과목별 평균을 출력합니다");
+				try {
+					Map<String,Integer> map = SugangManager.avgGrade();
+					Set<String> keySet = map.keySet();
+					for (String s : keySet) {
+						System.out.println(s+" "+map.get(s));
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+				
 			case 9: 
 				System.out.println("종료합니다\n");
 				return;
+				
 			default : 
 				System.out.println("다시 입력하세요\n");
-
 				break;
 			}
 		}
